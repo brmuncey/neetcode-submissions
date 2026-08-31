@@ -1,0 +1,20 @@
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Set<List<Integer>> res = new HashSet<>();
+        Arrays.sort(nums);
+        dfs(nums, res, new ArrayList<>(), 0);
+        return new ArrayList<>(res);
+    }
+
+    private void dfs(int[] nums, Set<List<Integer>> res, List<Integer> cur, int i){
+        if(i >= nums.length){
+            res.add(new ArrayList<>(cur));
+            return;
+        }
+
+        cur.add(nums[i]);
+        dfs(nums, res, cur, i + 1);
+        cur.remove(cur.size() - 1);
+        dfs(nums, res, cur, i + 1);
+    }
+}

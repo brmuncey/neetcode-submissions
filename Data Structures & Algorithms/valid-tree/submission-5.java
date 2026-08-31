@@ -1,0 +1,25 @@
+class Solution {
+    public boolean validTree(int n, int[][] edges) {
+        Map<Integer, Set<Integer>> adj = new HashMap<>();
+        for(int i=0; i<n; i++) adj.put(i, new HashSet<>());
+
+        for(int[] e : edges){
+            adj.get(e[0]).add(e[1]);
+            adj.get(e[1]).add(e[0]);
+        }
+
+        Set<Integer> visited = new HashSet<>();
+        return dfs(0, -1, adj, visited) && n == visited.size();
+    }
+
+    private boolean dfs(int c, int p, Map<Integer, Set<Integer>> adj, Set<Integer> v){
+        if(v.contains(c)) return false;
+        v.add(c);
+
+        for(int i : adj.get(c)){
+            if(i == p) continue;
+            if(!dfs(i, c, adj, v)) return false;
+        }
+        return true;
+    }
+}
